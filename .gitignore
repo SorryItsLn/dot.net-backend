@@ -1,0 +1,16 @@
+# Build results
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# Rider / JetBrains
+.idea/
+
+# User-specific files
+*.user
+*.suo
+
+# macOS
+.DS_Store

@@ -2,7 +2,6 @@ namespace BookStore.Core.Models
 {
     public class Book
     {
-
         public const int MAX_TITLE_LENGTH = 250;
 
         private Book(Guid id, string title, string description, decimal price)
@@ -21,8 +20,12 @@ namespace BookStore.Core.Models
 
         public decimal Price { get; }
 
-
-        public static (Book Book, string Error) Create(Guid id, string title, string description, decimal price)
+        public static (Book Book, string Error) Create(
+            Guid id,
+            string title,
+            string description,
+            decimal price
+        )
         {
             var error = string.Empty;
 
