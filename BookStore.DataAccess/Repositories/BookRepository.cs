@@ -1,18 +1,14 @@
 using System.Net.NetworkInformation;
+using BookStore.Core.Abstractions;
 using BookStore.Core.Models;
-using BookStore.DataAccess.Entites;
+using BookStore.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.DataAccess.Repository
 {
-    public class BooksRepository : IBooksRepository
+    public class BooksRepository(BookStoreDbContext context) : IBooksRepository
     {
-        private readonly BookStoreDbContext _context;
-
-        public BooksRepository(BookStoreDbContext context)
-        {
-            _context = context;
-        }
+        private readonly BookStoreDbContext _context = context;
 
         public async Task<List<Book>> Get()
         {

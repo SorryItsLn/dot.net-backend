@@ -1,6 +1,5 @@
+using BookStore.Core.Abstractions;
 using BookStore.Core.Models;
-using BookStore.DataAccess.Repository;
-using BookStore.DataAccess.Service;
 
 namespace BookStore.Application.Services
 {

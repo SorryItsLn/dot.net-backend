@@ -1,6 +1,6 @@
 using BookStore.Core.Models;
 
-namespace BookStore.DataAccess.Repository
+namespace BookStore.Core.Abstractions
 {
     public interface IBooksRepository
     {
