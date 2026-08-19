@@ -1,8 +1,6 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BookStore.Core;
 using BookStore.Core.Abstractions;
 using BookStore.Core.Models;
 using Microsoft.Extensions.Options;
@@ -16,7 +14,7 @@ public class JwtProvider(IOptions<JwtOptions> options) : IJwtProvider
 
     public string GenerateToken(User user)
     {
-        Claim[] claims = [new("userId", user.Id.ToString())];
+        Claim[] claims = [new(CustomClaims.UserId, user.Id.ToString()), new("Admin", "true")];
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),

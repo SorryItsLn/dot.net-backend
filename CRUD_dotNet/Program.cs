@@ -3,11 +3,11 @@ using BookStore.API.Extensions;
 using BookStore.Application.Interfaces.Auth;
 using BookStore.Application.Services;
 using BookStore.Core.Abstractions;
+using BookStore.Core.Enums;
 using BookStore.DataAccess;
 using BookStore.DataAccess.Mapping;
 using BookStore.DataAccess.Repository;
 using BookStore.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +26,9 @@ builder.Services.AddApiAuthentication(configuration);
 builder.Services.AddAuthorization();
 
 builder.Services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
+builder.Services.Configure<AuthorizationOptions>(
+    configuration.GetSection(nameof(AuthorizationOptions))
+);
 
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
@@ -50,5 +53,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapUsersEndpoints();
+
+app.MapGet("get", () => Results.Ok()).RequirePermissions(Permissions.Read);
+
+app.MapPost("Post", () => Results.Ok()).RequirePermissions(Permissions.Create);
 
 app.Run();

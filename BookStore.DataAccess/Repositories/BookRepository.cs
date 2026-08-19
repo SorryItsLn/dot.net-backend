@@ -1,7 +1,9 @@
 using System.Net.NetworkInformation;
+
 using BookStore.Core.Abstractions;
 using BookStore.Core.Models;
 using BookStore.DataAccess.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.DataAccess.Repository

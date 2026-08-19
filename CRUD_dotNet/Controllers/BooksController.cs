@@ -1,8 +1,10 @@
 using BookStore.API.Contracts;
 using BookStore.Core.Abstractions;
+using BookStore.Core.Enums;
 using BookStore.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static BookStore.API.Extensions.ApiExtensions;
 
 namespace BookStore.API.Controllers
 {
@@ -19,6 +21,7 @@ namespace BookStore.API.Controllers
         }
 
         [HttpGet]
+        [RequirePermissions(Permissions.Read)]
         public async Task<ActionResult<List<BooksResponse>>> GetBooks()
         {
             var books = await _booksService.GetAllBooks();
@@ -34,6 +37,7 @@ namespace BookStore.API.Controllers
         }
 
         [HttpPost]
+        [RequirePermissions(Permissions.Create)]
         public async Task<ActionResult<Guid>> CreateBook([FromBody] BooksRequest request)
         {
             var (book, error) = Book.Create(

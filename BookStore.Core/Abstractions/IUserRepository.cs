@@ -1,3 +1,4 @@
+using BookStore.Core.Enums;
 using BookStore.Core.Models;
 
 namespace BookStore.Core.Abstractions
@@ -7,5 +8,7 @@ namespace BookStore.Core.Abstractions
         Task<User> AddUser(User user);
 
         Task<User> GetByEmail(string email);
+
+        Task<HashSet<Permissions>> GetUserPermissions(Guid userId);
     }
 }
