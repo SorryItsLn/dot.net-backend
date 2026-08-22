@@ -1,13 +1,13 @@
-using BookStore.API.Endpoints.Users;
 using BookStore.API.Extensions;
 using BookStore.Application.Interfaces.Auth;
 using BookStore.Application.Services;
 using BookStore.Core.Abstractions;
+using BookStore.Core.Constants;
+using BookStore.Core.Enums;
 using BookStore.DataAccess;
 using BookStore.DataAccess.Mapping;
 using BookStore.DataAccess.Repository;
 using BookStore.Infrastructure;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,6 +49,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapUsersEndpoints();
+
+app.MapGet("get", () => Results.Ok()).RequirePermissions(Permissions.Read);
+
+app.MapPost("Post", () => Results.Ok()).RequirePermissions(Permissions.Create);
 
 app.Run();

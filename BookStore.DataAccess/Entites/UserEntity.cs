@@ -9,5 +9,7 @@ namespace BookStore.DataAccess.Entities
         public required string PasswordHash { get; set; }
 
         public required string Email { get; set; }
+
+        public ICollection<RoleEntity> Roles { get; set; } = [];
     }
 }
