@@ -1,5 +1,6 @@
 using BookStore.API.Contracts.Users;
 using BookStore.Core.Abstractions;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace BookStore.API.Endpoints.Users
 {
@@ -18,8 +19,15 @@ namespace BookStore.API.Endpoints.Users
             IUserService userService
         )
         {
-            await userService.Register(request.UserName, request.Email, request.Password);
-            return Results.Ok();
+            var result = await userService.Register(
+                request.UserName,
+                request.Email,
+                request.Password
+            );
+
+            return !result.IsSuccess
+                ? Results.BadRequest(new { error = result.Error })
+                : Results.Ok();
         }
 
         private static async Task<IResult> Login(
