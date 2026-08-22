@@ -1,13 +1,12 @@
-﻿using BookStore.DataAccess.Entities;
+﻿using BookStore.Core.Constants;
+using BookStore.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace BookStore.DataAccess
 {
-    public class BookStoreDbContext(
-        DbContextOptions<BookStoreDbContext> options,
-        IOptions<AuthorizationOptions> authOptions
-    ) : DbContext(options)
+    public class BookStoreDbContext(DbContextOptions<BookStoreDbContext> options)
+        : DbContext(options)
     {
         public DbSet<BookEntity> Books { get; set; }
 
@@ -21,7 +20,11 @@ namespace BookStore.DataAccess
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookStoreDbContext).Assembly);
 
-            modelBuilder.ApplyConfiguration(new RolePermissionConfiguration(authOptions.Value));
+            var permissionRelationship = RolePermissionsRelationship.GetRoleRelationship();
+
+            modelBuilder.ApplyConfiguration(
+                new RolePermissionConfiguration(permissionRelationship)
+            );
         }
     }
 }

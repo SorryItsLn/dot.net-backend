@@ -1,3 +1,5 @@
+using BookStore.Core.Enums;
+
 namespace BookStore.Core.Models
 {
     public class User
@@ -17,6 +19,8 @@ namespace BookStore.Core.Models
         public string PasswordHash { get; private set; }
 
         public string Email { get; private set; }
+
+        public Role Role { get; private set; } = Role.User;
 
         public static User Create(Guid id, string userName, string passwordHash, string email)
         {

@@ -1,9 +1,11 @@
 using AutoMapper;
 using BookStore.Core.Abstractions;
 using BookStore.Core.Enums;
+using BookStore.Core.Helpers;
 using BookStore.Core.Models;
 using BookStore.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace BookStore.DataAccess.Repository
 {
@@ -12,15 +14,12 @@ namespace BookStore.DataAccess.Repository
         private readonly BookStoreDbContext _context = context;
         private readonly IMapper _mapper = mapper;
 
-        public async Task<User> AddUser(User user)
+        public async Task<Result<User>> AddUser(User user)
         {
-            var role = user.UserName == "Admin" ? Role.Admin : Role.User;
-
             var roleEntity =
-                await _context.Roles.SingleOrDefaultAsync(r => r.Id == (int)role)
-                ?? throw new InvalidOperationException();
+                await _context.Roles.SingleOrDefaultAsync(r => r.Id == (int)user.Role)
+                ?? throw new InvalidOperationException("Role not be found");
 
-            Console.WriteLine($"Role - {role}, roleEntity - {roleEntity} ");
             var entity = new UserEntity()
             {
                 Id = user.Id,
@@ -31,9 +30,17 @@ namespace BookStore.DataAccess.Repository
             };
 
             await _context.Users.AddAsync(entity);
-            await _context.SaveChangesAsync();
 
-            return user;
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Result<User>.Success(user);
+            }
+            catch (DbUpdateException ex) when (IsUniqueConstraintViolation(ex))
+            {
+                string errorMessage = $"User with email '{user.Email}' already exists.";
+                return Result<User>.Failure(errorMessage);
+            }
         }
 
         public async Task<User> GetByEmail(string email)
@@ -59,6 +66,11 @@ namespace BookStore.DataAccess.Repository
                 .SelectMany(r => r.Permissions)
                 .Select(p => (Permissions)p.Id)
                 .ToHashSet();
+        }
+
+        private static bool IsUniqueConstraintViolation(DbUpdateException ex)
+        {
+            return ex.InnerException is PostgresException { SqlState: "23505" };
         }
     }
 }

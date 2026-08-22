@@ -1,4 +1,3 @@
-using BookStore.API.Endpoints.Users;
 using BookStore.API.Extensions;
 using BookStore.Application.Interfaces.Auth;
 using BookStore.Application.Services;

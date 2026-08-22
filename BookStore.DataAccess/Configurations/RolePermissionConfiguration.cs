@@ -1,4 +1,4 @@
-using BookStore.Core.Enums;
+using BookStore.Core.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,8 +24,8 @@ public class RolePermissionConfiguration(AuthorizationOptions authorization)
             .RolePermissions.SelectMany(rp =>
                 rp.Permission.Select(p => new RolePermissionEntity
                 {
-                    RoleId = (int)Enum.Parse<Role>(rp.Role),
-                    PermissionId = (int)Enum.Parse<Permissions>(p),
+                    RoleId = (int)rp.Role,
+                    PermissionId = (int)p,
                 })
             )
             .ToArray();

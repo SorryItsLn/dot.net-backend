@@ -65,6 +65,9 @@ namespace BookStore.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 
@@ -104,6 +107,11 @@ namespace BookStore.DataAccess.Migrations
                         {
                             Id = 4,
                             Name = "Delete"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "CreateEvent"
                         });
                 });
 
@@ -133,6 +141,11 @@ namespace BookStore.DataAccess.Migrations
                         {
                             Id = 2,
                             Name = "User"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Creator"
                         });
                 });
 
@@ -154,12 +167,12 @@ namespace BookStore.DataAccess.Migrations
                         new
                         {
                             RoleId = 1,
-                            PermissionId = 2
+                            PermissionId = 1
                         },
                         new
                         {
                             RoleId = 1,
-                            PermissionId = 1
+                            PermissionId = 2
                         },
                         new
                         {
@@ -175,6 +188,11 @@ namespace BookStore.DataAccess.Migrations
                         {
                             RoleId = 2,
                             PermissionId = 1
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            PermissionId = 5
                         });
                 });
 

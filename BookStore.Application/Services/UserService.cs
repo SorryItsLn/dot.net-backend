@@ -1,5 +1,6 @@
 using BookStore.Application.Interfaces.Auth;
 using BookStore.Core.Abstractions;
+using BookStore.Core.Helpers;
 using BookStore.Core.Models;
 
 namespace BookStore.Application.Services
@@ -14,12 +15,12 @@ namespace BookStore.Application.Services
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IJwtProvider _iJwtProvider = jwtProvider;
 
-        public async Task Register(string userName, string email, string password)
+        public async Task<Result<User>> Register(string userName, string email, string password)
         {
             var hashedPassword = _passwordHasher.Generate(password);
             var user = User.Create(Guid.NewGuid(), userName, hashedPassword, email);
 
-            await _userRepository.AddUser(user);
+            return await _userRepository.AddUser(user);
         }
 
         public async Task<string> Login(string email, string password)
@@ -36,5 +37,12 @@ namespace BookStore.Application.Services
 
             return token;
         }
+
+        // public async Task<string> SetRole(Guid userId)
+        // {
+        //     var user =
+
+        //     return
+        // }
     }
 }

@@ -8,4 +8,6 @@ public enum Permissions
     Create = 2,
     Update = 3,
     Delete = 4,
+
+    CreateEvent = 5,
 }
