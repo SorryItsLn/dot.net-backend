@@ -1,14 +1,8 @@
 using BookStore.API.Extensions;
-using BookStore.Application.Interfaces.Auth;
-using BookStore.Application.Services;
-using BookStore.Core.Abstractions;
-using BookStore.Core.Constants;
-using BookStore.Core.Enums;
-using BookStore.DataAccess;
+using BookStore.Application.Extensions;
+using BookStore.DataAccess.Extensions;
 using BookStore.DataAccess.Mapping;
-using BookStore.DataAccess.Repository;
-using BookStore.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+using BookStore.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -17,22 +11,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<BookStoreDbContext>(options =>
-{
-    options.UseNpgsql(configuration.GetConnectionString(nameof(BookStoreDbContext)));
-});
+builder
+    .Services.AddDataAccess(builder.Configuration)
+    .AddApplicationScope()
+    .AddInfrastructureScope(builder.Configuration);
 
 builder.Services.AddApiAuthentication(configuration);
 builder.Services.AddAuthorization();
-
-builder.Services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
-
-builder.Services.AddScoped<IBooksService, BooksService>();
-builder.Services.AddScoped<IBooksRepository, BooksRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 builder.Services.AddAutoMapper(cfg => { }, typeof(UserMappingProfile));
 
@@ -49,9 +34,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapGet("get", () => Results.Ok()).RequirePermissions(Permissions.Read);
-
-app.MapPost("Post", () => Results.Ok()).RequirePermissions(Permissions.Create);
 
 app.Run();
