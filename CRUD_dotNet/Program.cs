@@ -19,7 +19,11 @@ builder
 builder.Services.AddApiAuthentication(configuration);
 builder.Services.AddAuthorization();
 
-builder.Services.AddAutoMapper(cfg => { }, typeof(UserMappingProfile));
+builder.Services.AddAutoMapper(
+    cfg => { },
+    typeof(UserMappingProfile),
+    typeof(EmailConfirmationTokenMappingProfile)
+);
 
 var app = builder.Build();
 
