@@ -1,4 +1,3 @@
-using System;
 using BookStore.API.Contracts.Users;
 using BookStore.Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -6,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookStore.API.Controllers;
 
 [ApiController]
-[Route("user")]
+[Route("auth")]
 public class UserController(IUserService userService) : ControllerBase
 {
     private readonly IUserService _userService = userService;
@@ -26,5 +25,15 @@ public class UserController(IUserService userService) : ControllerBase
         HttpContext.Response.Cookies.Append("access", token);
 
         return Results.Ok(token);
+    }
+
+    [HttpPost("ConfirmEmail")]
+    public async Task<IResult> ConfirmEmail([FromBody] Guid userId)
+    {
+        var confirmationTokenResult = await _userService.SendConfirmationEmail(userId);
+
+        return !confirmationTokenResult.IsSuccess
+            ? Results.BadRequest(new { error = confirmationTokenResult.Error })
+            : Results.Ok();
     }
 }
