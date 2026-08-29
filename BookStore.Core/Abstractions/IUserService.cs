@@ -7,4 +7,5 @@ public interface IUserService
 {
     Task<string> Login(string email, string password);
     Task<Result<User>> Register(string userName, string email, string password);
+    Task<Result<EmailConfirmationToken>> SendConfirmationEmail(Guid userId);
 }

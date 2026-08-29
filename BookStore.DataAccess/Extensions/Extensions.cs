@@ -1,4 +1,4 @@
-using BookStore.Core.Abstractions;
+using BookStore.Core.Abstractions.Repositories;
 using BookStore.DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +19,7 @@ public static class DataAccessServiceCollectionExtensions
 
         services.AddScoped<IBooksRepository, BooksRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEmailConfirmationTokenRepository, EmailConfirmationTokenRepository>();
 
         return services;
     }

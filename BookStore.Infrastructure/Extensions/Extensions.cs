@@ -1,6 +1,5 @@
-using System;
-using BookStore.Application.Interfaces.Auth;
 using BookStore.Core.Abstractions;
+using BookStore.Core.Abstractions.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

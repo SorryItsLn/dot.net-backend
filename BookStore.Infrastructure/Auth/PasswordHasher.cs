@@ -1,4 +1,4 @@
-﻿using BookStore.Application.Interfaces.Auth;
+﻿using BookStore.Core.Abstractions.Auth;
 
 namespace BookStore.Infrastructure;
 

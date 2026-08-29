@@ -1,7 +1,6 @@
 ﻿using BookStore.Core.Constants;
 using BookStore.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace BookStore.DataAccess
 {
@@ -13,6 +12,8 @@ namespace BookStore.DataAccess
         public DbSet<UserEntity> Users { get; set; }
 
         public DbSet<RoleEntity> Roles { get; set; }
+
+        public DbSet<EmailConfirmationTokenEntity> EmailConfirmationToken { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

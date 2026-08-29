@@ -1,5 +1,5 @@
 using AutoMapper;
-using BookStore.Core.Abstractions;
+using BookStore.Core.Abstractions.Repositories;
 using BookStore.Core.Enums;
 using BookStore.Core.Helpers;
 using BookStore.Core.Models;
@@ -41,6 +41,15 @@ namespace BookStore.DataAccess.Repository
                 string errorMessage = $"User with email '{user.Email}' already exists.";
                 return Result<User>.Failure(errorMessage);
             }
+        }
+
+        public async Task<User> GetById(Guid userId)
+        {
+            var userEntity =
+                await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId)
+                ?? throw new Exception("User not found");
+
+            return _mapper.Map<User>(userEntity);
         }
 
         public async Task<User> GetByEmail(string email)

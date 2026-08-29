@@ -10,6 +10,7 @@ namespace BookStore.DataAccess.Entities
 
         public required string Email { get; set; }
 
+        public bool EmailConfirmed { get; set; } = false;
         public ICollection<RoleEntity> Roles { get; set; } = [];
     }
 }
