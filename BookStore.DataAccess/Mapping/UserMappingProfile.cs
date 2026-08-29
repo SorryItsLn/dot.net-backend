@@ -1,5 +1,4 @@
 using AutoMapper;
-
 using BookStore.Core.Models;
 using BookStore.DataAccess.Entities;
 
@@ -11,5 +10,13 @@ public class UserMappingProfile : Profile
     {
         CreateMap<UserEntity, User>();
         CreateMap<User, UserEntity>();
+    }
+}
+
+public class EmailConfirmationTokenMappingProfile : Profile
+{
+    public EmailConfirmationTokenMappingProfile()
+    {
+        CreateMap<EmailConfirmationTokenEntity, EmailConfirmationToken>();
     }
 }

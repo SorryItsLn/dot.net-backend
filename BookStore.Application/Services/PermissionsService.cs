@@ -1,5 +1,5 @@
 using BookStore.Core;
-using BookStore.Core.Abstractions;
+using BookStore.Core.Abstractions.Repositories;
 using BookStore.Core.Enums;
 
 namespace BookStore.Application;

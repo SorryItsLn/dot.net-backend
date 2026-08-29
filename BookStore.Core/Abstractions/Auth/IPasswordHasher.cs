@@ -1,4 +1,4 @@
-namespace BookStore.Application.Interfaces.Auth;
+namespace BookStore.Core.Abstractions.Auth;
 
 public interface IPasswordHasher
 {
